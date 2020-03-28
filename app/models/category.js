@@ -29,6 +29,11 @@ categorySchema.statics.findAllProducts = function(id){
     return Product.find({ category: categoryId})
 }
 
+categorySchema.statics.findBySlug = function(slug){
+    let categorySlug = slug;
+    return Category.find( { slug:  categorySlug })
+}
+
 const Category = mongoose.model('Category', categorySchema); 
 
 module.exports = {

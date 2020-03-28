@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router(); 
 const { Category } = require('../models/category'); 
 // const { Product } = require('../models/product'); 
-// const { validateID } = require('../middlewares/utilities'); 
+const { validateID} = require('../middlewares/utilities'); 
 
 //GET localhost:3000/categories/
 router.get('/', (req, res) => {
@@ -30,21 +30,26 @@ router.post('/', (req, res) => {
     }); 
 }); 
 
+//PUT 
+
+router.put('/:slug',(req,res) => {
+    
+})
 
 // GET localhost:3000/categories/:id 
-// router.get('/:id', validateID, (req, res) => {
-//     let id = req.params.id; 
-//     Category.findById(id).then((category) => {
-//        if(!category) {
-//            res.send({
-//                notice: 'record not found'
-//            })
-//        }
-//        res.send(category); 
-//     }).catch((err) => {
-//         res.send(err);
-//     })
-// }); 
+router.get('/:slug', (req, res) => {
+    let slug = req.params.slug; 
+    Category.findBySlug(slug).then((category) => {
+       if(!category || category.length === 0 ) {
+           res.send({
+               notice: 'record not found'
+           })
+       }
+       res.send(category); 
+    }).catch((err) => {
+        res.send(err);
+    })
+}); 
 
 
 // router.put('/:id', validateID, (req, res) => {
