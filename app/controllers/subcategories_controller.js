@@ -1,13 +1,13 @@
 const express = require('express'); 
 const router = express.Router(); 
 const { Category } = require('../models/category'); 
-// const { Product } = require('../models/product'); 
+const { SubCategory } = require('../models/sub_category'); 
 const { validateID} = require('../middlewares/utilities'); 
 
-//GET localhost:3000/categories/
+//GET localhost:3000/sub_categories/
 router.get('/', (req, res) => {
-    Category.find().then((categories) => {
-        res.send(categories); 
+    SubCategory.find().populate('category').then((sub_categories) => {
+        res.send(sub_categories); 
     }).catch((err) => {
         res.send(err); 
     });
@@ -16,14 +16,14 @@ router.get('/', (req, res) => {
 // POST localhost:3000/categories
 router.post('/', (req, res) => {
     let body = req.body; 
-    let category = new Category(body); 
+    let sub_category = new SubCategory(body); 
     console.log('====================================')
     console.log(body)
     console.log('====================================')
-    category.save().then((category) => {
+    sub_category.save().then((sub_category) => {
         res.send({
-            category, 
-            notice: 'Successfully created a category'
+            sub_category, 
+            notice: 'Successfully created a sub_category'
         }); 
     }).catch((err) => {
         res.send(err); 
@@ -36,20 +36,21 @@ router.put('/:slug',(req,res) => {
     const slug = req.params.slug 
     const body = req.body 
     
-    Category.update({slug: slug}, { $set: body }, { new: true }).then((category) => {
+    SubCategory.update({slug: slug}, { $set: body }, { new: true }).then((sub_category) => {
         res.send({
-            category,
-            notice: "Successfully updated a category"
+            sub_category,
+            notice: "Successfully updated a sub_category"
         })
     }).catch((err) => {
         res.send(err); 
     }); 
 });
 
+
 // GET localhost:3000/categories/:id 
 router.get('/:slug', (req, res) => {
     let slug = req.params.slug; 
-    Category.findBySlug(slug).then((category) => {
+    SubCategory.findBySlug(slug).then((category) => {
        if(!category || category.length === 0 ) {
            res.send({
                notice: 'record not found'
@@ -61,17 +62,33 @@ router.get('/:slug', (req, res) => {
     })
 }); 
 
+
+// GET localhost:3000/categories/:id 
+router.get('/:slug', (req, res) => {
+    let slug = req.params.slug; 
+    SubCategory.findBySlug(slug).then((sub_category) => {
+       if(!sub_category || sub_category.length === 0 ) {
+           res.send({
+               notice: 'record not found'
+           })
+       }
+       res.send(sub_category); 
+    }).catch((err) => {
+        res.send(err);
+    })
+}); 
+
 // DELETE localhost:3000/categories/:id
 router.delete('/:slug', (req, res) => {
     let slug = req.params.slug; 
-    Category.findOneAndDelete({slug: slug}).then((category) => {
-        if(!category || category.length === 0 ) {
+    SubCategory.findOneAndDelete({slug: slug}).then((sub_category) => {
+        if(!sub_category || sub_category.length === 0 ) {
             res.send({
                 notice: 'record not found'
             });
         }
         res.send({
-            category, 
+            sub_category, 
             notice: 'successfully deleted the record'
         }); 
 
@@ -99,5 +116,5 @@ router.delete('/:slug', (req, res) => {
 
 
 module.exports = {
-    categoriesController: router
+    subCategoriesController: router
 }

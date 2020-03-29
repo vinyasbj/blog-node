@@ -1,7 +1,7 @@
 // Object Prototype Function
 
 const mongoose = require('mongoose'); 
-const Schema = mongoose.Schema; 
+const Schema = mongoose.Schema 
 // const { Product } = require('./product'); 
 
 const categorySchema = new Schema({
@@ -19,7 +19,7 @@ const categorySchema = new Schema({
         maxlength: 64,
         unique: true
     }
-}); 
+},{timestamps: true}); 
 
 // static methods or instance methods should not be arrow functions
 
