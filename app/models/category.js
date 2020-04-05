@@ -3,7 +3,7 @@
 const mongoose = require('mongoose'); 
 const Schema = mongoose.Schema 
 // const { Product } = require('./product'); 
-
+const parameterized = require('../middlewares/utilities')
 const categorySchema = new Schema({
     name: {
         type: String, 
@@ -20,6 +20,14 @@ const categorySchema = new Schema({
         unique: true
     }
 },{timestamps: true}); 
+
+
+categorySchema.pre('validate', function(next){
+    let category = this 
+    category.slug = this.name.trim().toLowerCase().replace(/[^a-zA-Z0-9 -]/, "").replace(/\s/g, "-")
+    console.log('im called before saving',category.slug)
+    next()
+})
 
 // static methods or instance methods should not be arrow functions
 

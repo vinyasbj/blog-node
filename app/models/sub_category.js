@@ -23,6 +23,13 @@ const subCategorySchema = new Schema({
     }
 },{timestamps: true});
 
+subCategorySchema.pre('validate', function(next){
+    let sub_category = this 
+    sub_category.slug = this.name.trim().toLowerCase().replace(/[^a-zA-Z0-9 -]/, "").replace(/\s/g, "-")
+    console.log('im called before saving',sub_category.slug)
+    next()
+})
+
 const SubCategory = mongoose.model('SubCategory',subCategorySchema);
 
 module.exports = {

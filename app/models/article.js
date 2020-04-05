@@ -46,6 +46,17 @@ const articleSchema = new Schema({
     }
 },{timestamps: true});
 
+// productSchema.pre('save', function(next){
+//     console.log('im called before saving')
+//     next()
+// })
+
+articleSchema.pre('validate', function(next){
+    let article = this 
+    article.slug = this.name.trim().toLowerCase().replace(/[^a-zA-Z0-9 -]/, "").replace(/\s/g, "-")
+    console.log('im called before saving',article.slug)
+    next()
+})
 const Article = mongoose.model('Article',articleSchema)
 
 module.exports = {
