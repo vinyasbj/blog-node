@@ -37,6 +37,12 @@ const articleSchema = new Schema({
         type: Schema.Types.ObjectId,
         required: true,
         ref: "SubCategory"
+    },source:{
+        type: String
+
+    },active: {
+        type: Boolean,
+        default: true
     }
 },{timestamps: true});
 
