@@ -28,6 +28,7 @@ router.post('/', (req, res) => {
     console.log(body)
     console.log('====================================')
     article.save().then((article) => {
+        console.log(res);
         res.send({
             article, 
             notice: 'Successfully created a article'
@@ -37,7 +38,7 @@ router.post('/', (req, res) => {
     }); 
 }); 
 
-//PUT 
+//PUT 5e83b1c3f8a5d00247933ed
 
 router.put('/:slug',(req,res) => {
     const slug = req.params.slug 

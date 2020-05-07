@@ -52,8 +52,8 @@ const articleSchema = new Schema({
 // })
 
 articleSchema.pre('validate', function(next){
-    let article = this 
-    article.slug = this.name.trim().toLowerCase().replace(/[^a-zA-Z0-9 -]/, "").replace(/\s/g, "-")
+    let article = this
+    article.slug = this.title.trim().toLowerCase().replace(/[^a-zA-Z0-9 -]/, "").replace(/\s/g, "-")
     console.log('im called before saving',article.slug)
     next()
 })
